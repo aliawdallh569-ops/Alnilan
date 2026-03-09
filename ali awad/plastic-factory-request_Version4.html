@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>طلب منتجات المصنع</title>
+<style>
+body{
+    font-family: Arial;
+    direction: rtl;
+    background: #e6f2f2;
+    text-align: center;
+}
+.container{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:30px;
+    margin-top:30px;
+}
+.card{
+    background: rgb(206, 197, 197);
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow:0 0 10px rgba(224, 24, 24, 0.1);
+}
+img{
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px;
+    cursor: pointer;
+    transition: box-shadow .2s;
+}
+img:hover{
+    box-shadow: 0 0 10px #0a7c6b;
+}
+input,select{
+    width:90%;
+    padding:8px;
+    margin:5px 0;
+}
+button{
+    background:#0a7c6b;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+/* Lightbox (الصورة المكبرة) */
+#lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left:0; top:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+}
+#lightbox img {
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 15px;
+    box-shadow:0 0 40px white;
+}
+#lightbox .close-btn {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-size: 32px;
+    background: #0a7c6b;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<h1>مصنع المهندس للبلاستيك</h1>
+
+<div class="container">
+    <div class="card">
+        <!-- الصورة قابلة للنقر -->
+        <img src="https://i.imgur.com/7QZ7Z6F.jpg" alt="منتجات البلاستيك" onclick="showLightbox(this.src)">
+        <h3>رول و أكياس</h3>
+        <select id="product">
+            <option>رول شفاف</option>
+            <option>أكياس سوداء</option>
+            <option>أكياس صفراء</option>
+            <option>أكياس عيش بيضاء</option>
+            <option>أكياس سوداء صغيرة</option>
+            <option>أكياس خضراء</option>
+        </select>
+        <input type="text" id="name" placeholder="إسم العميل" required>
+        <input type="number" id="qty" placeholder="الكمية بالشوال" required>
+        <input type="text" id="phone" placeholder="رقمك بالواتساب" required>
+        <input type="text" id="location" placeholder="الموقع" required>
+        <button onclick="sendWhatsApp()">إرسال الطلب عبر واتساب</button>
+        <p style="color: #3a3a3a; font-size: 14px;">
+        بعد الضغط على الزر سيتم فتح واتساب لإرسال طلبك، يرجى الضغط على زر الإرسال داخل التطبيق.
+        </p>
+    </div>
+</div>
+
+<!-- نافذة الصورة المكبرة -->
+<div id="lightbox" onclick="closeLightbox(event)">
+    <button class="close-btn" onclick="closeLightbox(event)">×</button>
+    <img src="" alt="صورة مكبرة">
+</div>
+
+<script>
+function sendWhatsApp() {
+    let name = document.getElementById("name").value;
+    let product = document.getElementById("product").value;
+    let qty = document.getElementById("qty").value;
+    let phone = document.getElementById("phone").value;
+    let location = document.getElementById("location").value;
+
+    if(!name || !product || !qty || !phone || !location){
+        alert("الرجاء ملء جميع الحقول");
+        return;
+    }
+
+    // الرقم الصحيح الذي يستقبل الطلب
+    let waNumber = "249119361244"; 
+
+    // نص الرسالة للواتساب
+    let message = `الطلب من: ${name}%0Aالمنتج: ${product}%0Aالكمية: ${qty}%0Aرقم العميل: ${phone}%0Aالموقع: ${location}`;
+
+    window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank');
+}
+
+// عرض الصورة المكبرة
+function showLightbox(src){
+    var lightbox = document.getElementById('lightbox');
+    var img = lightbox.querySelector('img');
+    img.src = src;
+    lightbox.style.display = 'flex';
+}
+
+// إغلاق الصورة المكبرة
+function closeLightbox(event){
+    // إذا الضغط على زر أو على خلفية النافذة يغلق الصورة
+    if(event.target.id === 'lightbox' || event.target.className === 'close-btn'){
+        document.getElementById('lightbox').style.display = 'none';
+    }
+}
+</script>
+
+</body>
+</html>
