@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>طلب منتجات المصنع</title>
+<style>
+body{
+    font-family: Arial;
+    direction: rtl;
+    background: #e6f2f2;
+    text-align: center;
+}
+.container{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:30px;
+    margin-top:30px;
+}
+.card{
+    background: rgb(206, 197, 197);
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow:0 0 10px rgba(224, 24, 24, 0.1);
+}
+img{
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px;
+}
+input,select{
+    width:90%;
+    padding:8px;
+    margin:5px 0;
+}
+button{
+    background:#0a7c6b;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    cursor:pointer;
+    border-radius:5px;
+}
+</style>
+</head>
+<body>
+
+<h1>مصنع المهندس للبلاستيك</h1>
+
+<div class="container">
+    <div class="card">
+        <img src="https://i.imgur.com/7QZ7Z6F.jpg" alt="منتجات البلاستيك">
+        <h3>رول و أكياس</h3>
+        <select id="product">
+            <option>رول شفاف</option>
+            <option>أكياس سوداء</option>
+            <option>أكياس صفراء</option>
+            <option>أكياس عيش بيضاء</option>
+            <option>أكياس سوداء صغيرة</option>
+            <option>أكياس خضراء</option>
+        </select>
+        <input type="text" id="name" placeholder="إسم العميل" required>
+        <input type="number" id="qty" placeholder="الكمية بالشوال" required>
+        <input type="text" id="phone" placeholder="رقمك بالواتساب" required>
+        <input type="text" id="location" placeholder="الموقع" required>
+        <button onclick="sendWhatsApp()">إرسال الطلب عبر واتساب</button>
+    </div>
+</div>
+
+<script>
+function sendWhatsApp() {
+    let name = document.getElementById("name").value;
+    let product = document.getElementById("product").value;
+    let qty = document.getElementById("qty").value;
+    let phone = document.getElementById("phone").value;
+    let location = document.getElementById("location").value;
+
+    if(!name || !product || !qty || !phone || !location){
+        alert("الرجاء ملء جميع الحقول");
+        return;
+    }
+
+    // هنا الرقم اللي حيوصلو الطلب ( 249119361244)
+    let waNumber = "249119361244"; 
+
+    // نص الرسالة للواتساب
+    let message = الطلب من: ${encodeURIComponent(name)}%0Aالمنتج: ${encodeURIComponent(product)}%0Aالكمية: ${encodeURIComponent(qty)}%0Aرقم العميل: ${encodeURIComponent(phone)}%0Aالموقع: ${encodeURIComponent(location)};
+
+    // فتح واتساب في نافذة جديدة
+    window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank');
+}
+</script>
+
+</body>
+</html>
